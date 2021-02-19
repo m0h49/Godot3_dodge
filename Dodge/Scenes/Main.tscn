@@ -1,0 +1,101 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Scripts/Main.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Mob.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/HUD.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/House In a Forest Loop.ogg" type="AudioStream" id=5]
+[ext_resource path="res://Assets/gameover.wav" type="AudioStream" id=6]
+[ext_resource path="res://Assets/GrassBackgraund.png" type="Texture" id=7]
+[ext_resource path="res://Scenes/Shadow.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Setting.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/Bush.tscn" type="PackedScene" id=10]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 540, 0, 0, 0, 0, 0, 540, 960, 0, 0, 0, 0, 0, 960, 0, 0, 0, 0, 0, 0 )
+}
+
+[node name="Main" type="Node"]
+script = ExtResource( 1 )
+mob_scene = ExtResource( 2 )
+shadow_scene = ExtResource( 8 )
+
+[node name="Background" type="Sprite" parent="."]
+position = Vector2( 270, 480 )
+texture = ExtResource( 7 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 540, 1153.03 )
+
+[node name="Bush" parent="." instance=ExtResource( 10 )]
+position = Vector2( 80, 220 )
+
+[node name="Bush2" parent="." instance=ExtResource( 10 )]
+position = Vector2( 104, 160 )
+
+[node name="Bush3" parent="." instance=ExtResource( 10 )]
+position = Vector2( 372, 244 )
+
+[node name="Bush4" parent="." instance=ExtResource( 10 )]
+position = Vector2( 72, 396 )
+
+[node name="Bush5" parent="." instance=ExtResource( 10 )]
+position = Vector2( 452, 460 )
+
+[node name="Bush6" parent="." instance=ExtResource( 10 )]
+position = Vector2( 176, 496 )
+
+[node name="Bush7" parent="." instance=ExtResource( 10 )]
+position = Vector2( 272, 132 )
+
+[node name="Bush8" parent="." instance=ExtResource( 10 )]
+position = Vector2( 332, 368 )
+
+[node name="Bush9" parent="." instance=ExtResource( 10 )]
+position = Vector2( 248, 744 )
+
+[node name="Bush10" parent="." instance=ExtResource( 10 )]
+position = Vector2( 112, 652 )
+
+[node name="Bush11" parent="." instance=ExtResource( 10 )]
+position = Vector2( 384, 652 )
+
+[node name="Bush12" parent="." instance=ExtResource( 10 )]
+position = Vector2( 424, 816 )
+
+[node name="Bush13" parent="." instance=ExtResource( 10 )]
+position = Vector2( 124, 872 )
+
+[node name="Player" parent="." instance=ExtResource( 3 )]
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="ScoreTimer" type="Timer" parent="."]
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="StartPosition" type="Position2D" parent="."]
+position = Vector2( 270, 480 )
+
+[node name="MobPath" type="Path2D" parent="."]
+curve = SubResource( 1 )
+
+[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
+
+[node name="HUD" parent="." instance=ExtResource( 4 )]
+
+[node name="Setting" parent="." instance=ExtResource( 9 )]
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+[connection signal="hit" from="Player" to="." method="game_over"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
+[connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
+[connection signal="start_game" from="HUD" to="." method="new_game"]
